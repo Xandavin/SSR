@@ -20,7 +20,7 @@ public class SSRCore
 {
     public static final String ID = "SSR";
     public static final String NAME = "Soul Shards Reborn";
-    public static final String VERSION = "rc2";
+    public static final String VERSION = "rc4";
 
     public static File CONFIG_DIR;
 
