@@ -15,7 +15,7 @@ public final class ObjHandler {
 	public static final Block SOUL_CAGE = new SoulCageBlock();
 
 	public static void registerObjs() {
-		int counter = 52;
+		int counter = 0;
 		boolean found = false;
 
 		while (counter <= 256 && !found) {
