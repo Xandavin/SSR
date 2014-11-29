@@ -15,16 +15,17 @@ public final class ObjHandler {
 	public static final Block SOUL_CAGE = new SoulCageBlock();
 
 	public static void registerObjs() {
-		int counter = 0;
-		boolean found = false;
+	//	NOT FINISHED, FORGOT IMPORTANT PART
+	//	int counter = 0;
+	//	boolean found = false;
 
-		while (counter <= 256 && !found) {
-			if (Enchantment.enchantmentsList[counter] == null) {
-				Enchantment SOUL_STEALER = new SoulStealerEnchant(counter,
-						SSRConfig.ENCHANT_WEIGHT);
-				found = true;
-			}
-		}
+	//	while (counter <= 256 && !found) {
+	//		if (Enchantment.enchantmentsList[counter] == null) {
+	//			Enchantment SOUL_STEALER = new SoulStealerEnchant(counter,
+	//					SSRConfig.ENCHANT_WEIGHT);
+	//			found = true;
+	//		}
+	//	}
 		GameRegistry.registerItem(SOUL_SHARD, "ssr_soul_shard");
 		GameRegistry.registerBlock(SOUL_CAGE, SoulCageItem.class,
 				"ssr_soul_cage");
