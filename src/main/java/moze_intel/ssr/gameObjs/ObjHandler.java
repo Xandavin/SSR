@@ -9,30 +9,28 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public final class ObjHandler {
-	public static Enchantment SOUL_STEALER;
-	public static final SSRCreativeTab CREATIVE_TAB = new SSRCreativeTab();
-	public static final Item SOUL_SHARD = new SoulShardItem();
-	public static final Block SOUL_CAGE = new SoulCageBlock();
+    public static final SSRCreativeTab CREATIVE_TAB = new SSRCreativeTab();
+    public static final Item SOUL_SHARD = new SoulShardItem();
+    public static final Block SOUL_CAGE = new SoulCageBlock();
+    public static Enchantment SOUL_STEALER;
 
-	public static void registerObjs() {
-	//	NOT FINISHED, FORGOT IMPORTANT PART
-	//	int counter = 0;
-	//	boolean found = false;
+    public static void registerObjs() {
 
-	//	while (counter <= 256 && !found) {
-	//		if (Enchantment.enchantmentsList[counter] == null) {
-	//			Enchantment SOUL_STEALER = new SoulStealerEnchant(counter,
-	//					SSRConfig.ENCHANT_WEIGHT);
-	//			found = true;
-	//		}
-	//	}
-		GameRegistry.registerItem(SOUL_SHARD, "ssr_soul_shard");
-		GameRegistry.registerBlock(SOUL_CAGE, SoulCageItem.class,
-				"ssr_soul_cage");
-		GameRegistry.registerTileEntity(SoulCageTile.class,
-				"ssr_soul_cage_tile");
+        boolean found = false;
+        for (int counter = 0; counter <= 256 && !found; counter++) {
+            if (Enchantment.enchantmentsList[counter] == null) {
+                Enchantment SOUL_STEALER = new SoulStealerEnchant(counter,
+                        SSRConfig.ENCHANT_WEIGHT);
+                found = true;
+            }
+        }
+        GameRegistry.registerItem(SOUL_SHARD, "ssr_soul_shard");
+        GameRegistry.registerBlock(SOUL_CAGE, SoulCageItem.class,
+                "ssr_soul_cage");
+        GameRegistry.registerTileEntity(SoulCageTile.class,
+                "ssr_soul_cage_tile");
 
-		GameRegistry.addShapedRecipe(new ItemStack(ObjHandler.SOUL_CAGE),
-				"III", "IXI", "III", 'I', Blocks.iron_bars);
-	}
+        GameRegistry.addShapedRecipe(new ItemStack(ObjHandler.SOUL_CAGE),
+                "III", "IXI", "III", 'I', Blocks.iron_bars);
+    }
 }
