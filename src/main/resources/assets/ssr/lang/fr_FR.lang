@@ -1,0 +1,7 @@
+item.ssr.shard_unbound.name=Fragment d'âme non-consolidé
+item.ssr.shard.name=Fragment d'âme
+tile.ssr.soul_cage_0.name=Cage d'âme vide
+tile.ssr.soul_cage_1.name=Cage d'âme inactive
+tile.ssr.soul_cage_2.name=Cage d'âme active
+enchantment.soul_stealer=Voleur d'âmes
+itemGroup.soul_shards_reborn=Soul Shards Reborn

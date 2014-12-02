@@ -7,7 +7,6 @@ import java.io.File;
 public final class SSRConfig
 {
     private static Configuration config;
-    public static int ENCHANT_ID;
     public static int ENCHANT_WEIGHT;
     public static int ENCHANT_KILL_BONUS;
     public static int SPAWNER_ABSORB_BONUS;
@@ -32,7 +31,6 @@ public final class SSRConfig
         {
             config.load();
 
-            ENCHANT_ID = config.getInt("ID", "Soul Stealer Enchant", 86, 1, 128, "Soul-Stealer enchant id");
             ENCHANT_WEIGHT = config.getInt("Weight", "Soul Stealer Enchant", 8, 1, 10, "Soul-Stealer enchant probability");
             ENCHANT_KILL_BONUS = config.getInt("Kill Bonus", "Soul Stealer Enchant", 1, 1, 10, "Soul-Stealer kill bonus");
             SPAWNER_ABSORB_BONUS = config.getInt("Vanilla Spawner Bonus", "Misc", 200, 1, 400, "Amount of kills added to the shard when right-clicking a spawner");
