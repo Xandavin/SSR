@@ -8,17 +8,14 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class SSRCreativeTab extends CreativeTabs
-{
+public class SSRCreativeTab extends CreativeTabs {
 
-    public SSRCreativeTab()
-    {
+    public SSRCreativeTab() {
         super("soul_shards_reborn");
     }
 
     @Override
-    public ItemStack getIconItemStack()
-    {
+    public ItemStack getIconItemStack() {
         ItemStack shard = new ItemStack(ObjHandler.SOUL_SHARD);
 
         Utils.setShardTier(shard, (byte) 5);
@@ -30,8 +27,7 @@ public class SSRCreativeTab extends CreativeTabs
 
     @Override
     @SideOnly(Side.CLIENT)
-    public Item getTabIconItem()
-    {
+    public Item getTabIconItem() {
         return null;
     }
 }

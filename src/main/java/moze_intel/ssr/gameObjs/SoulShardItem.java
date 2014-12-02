@@ -23,15 +23,13 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-public class SoulShardItem extends Item
-{
+public class SoulShardItem extends Item {
     @SideOnly(Side.CLIENT)
     private IIcon unbound;
     @SideOnly(Side.CLIENT)
     private IIcon[] icons;
 
-    public SoulShardItem()
-    {
+    public SoulShardItem() {
         this.setUnlocalizedName("soul_shard");
         this.setCreativeTab(ObjHandler.CREATIVE_TAB);
         this.setMaxStackSize(1);
@@ -39,15 +37,12 @@ public class SoulShardItem extends Item
     }
 
     @Override
-    public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean isHeld)
-    {
-        if (world.isRemote)
-        {
+    public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean isHeld) {
+        if (world.isRemote) {
             return;
         }
 
-        if (!stack.hasTagCompound())
-        {
+        if (!stack.hasTagCompound()) {
             stack.setTagCompound(new NBTTagCompound());
         }
 
@@ -55,55 +50,44 @@ public class SoulShardItem extends Item
     }
 
     @Override
-    public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
-    {
-        if (world.isRemote || (Utils.hasMaxedKills(stack)) || !SSRConfig.ALLOW_SPAWNER_ABSORB)
-        {
+    public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
+        if (world.isRemote || (Utils.hasMaxedKills(stack)) || !SSRConfig.ALLOW_SPAWNER_ABSORB) {
             return stack;
         }
 
         MovingObjectPosition mop = this.getMovingObjectPositionFromPlayer(world, player, false);
 
-        if (mop == null || mop.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK)
-        {
+        if (mop == null || mop.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) {
             return stack;
         }
 
         TileEntity tile = world.getTileEntity(mop.blockX, mop.blockY, mop.blockZ);
 
-        if (tile instanceof TileEntityMobSpawner)
-        {
+        if (tile instanceof TileEntityMobSpawner) {
             String name = ((TileEntityMobSpawner) tile).func_145881_a().getEntityNameToSpawn();
 
             Entity ent = EntityMapper.getNewEntityInstance(world, name);
 
-            if (ent == null)
-            {
+            if (ent == null) {
                 return stack;
             }
 
             ent = ((TileEntityMobSpawner) tile).func_145881_a().func_98265_a(ent);
 
-            if (ent instanceof EntitySkeleton && ((EntitySkeleton) ent).getSkeletonType() == 1)
-            {
+            if (ent instanceof EntitySkeleton && ((EntitySkeleton) ent).getSkeletonType() == 1) {
                 name = "Wither Skeleton";
             }
 
-            if (!EntityMapper.isEntityValid(name))
-            {
+            if (!EntityMapper.isEntityValid(name)) {
                 return stack;
             }
 
-            if (Utils.isShardBound(stack))
-            {
-                if (Utils.getShardBoundEnt(stack).equals(name))
-                {
+            if (Utils.isShardBound(stack)) {
+                if (Utils.getShardBoundEnt(stack).equals(name)) {
                     Utils.increaseShardKillCount(stack, (short) SSRConfig.SPAWNER_ABSORB_BONUS);
                     world.func_147480_a(mop.blockX, mop.blockY, mop.blockZ, false);
                 }
-            }
-            else if (EntityMapper.isEntityValid(name))
-            {
+            } else if (EntityMapper.isEntityValid(name)) {
                 Utils.setShardBoundEnt(stack, name);
                 Utils.writeEntityHeldItem(stack, (EntityLiving) ent);
                 Utils.increaseShardKillCount(stack, (short) SSRConfig.SPAWNER_ABSORB_BONUS);
@@ -115,10 +99,8 @@ public class SoulShardItem extends Item
     }
 
     @Override
-    public String getUnlocalizedName(ItemStack stack)
-    {
-        if (Utils.isShardBound(stack))
-        {
+    public String getUnlocalizedName(ItemStack stack) {
+        if (Utils.isShardBound(stack)) {
             return "item.ssr.shard";
         }
 
@@ -127,17 +109,14 @@ public class SoulShardItem extends Item
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean hasEffect(ItemStack stack, int pass)
-    {
+    public boolean hasEffect(ItemStack stack, int pass) {
         return Utils.hasMaxedKills(stack);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(Item item, CreativeTabs tabs, List list)
-    {
-        for (int i = 0; i <= 5; i++)
-        {
+    public void getSubItems(Item item, CreativeTabs tabs, List list) {
+        for (int i = 0; i <= 5; i++) {
             ItemStack stack = new ItemStack(item, 1);
 
             Utils.setShardKillCount(stack, TierHandler.getMinKills(i));
@@ -149,15 +128,12 @@ public class SoulShardItem extends Item
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
-    {
-        if (Utils.isShardBound(stack))
-        {
+    public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
+        if (Utils.isShardBound(stack)) {
             list.add("Bound to: " + Utils.getEntityNameTransltated(Utils.getShardBoundEnt(stack)));
         }
 
-        if (Utils.getShardKillCount(stack) >= 0)
-        {
+        if (Utils.getShardKillCount(stack) >= 0) {
             list.add("Kills: " + Utils.getShardKillCount(stack));
         }
 
@@ -166,17 +142,14 @@ public class SoulShardItem extends Item
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean requiresMultipleRenderPasses()
-    {
+    public boolean requiresMultipleRenderPasses() {
         return true;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon(ItemStack stack, int pass)
-    {
-        if (!Utils.isShardBound(stack))
-        {
+    public IIcon getIcon(ItemStack stack, int pass) {
+        if (!Utils.isShardBound(stack)) {
             return unbound;
         }
 
@@ -185,14 +158,12 @@ public class SoulShardItem extends Item
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister register)
-    {
+    public void registerIcons(IIconRegister register) {
         unbound = register.registerIcon("ssr:unbound");
 
         icons = new IIcon[6];
 
-        for (int i = 0; i <= 5; i++)
-        {
+        for (int i = 0; i <= 5; i++) {
             icons[i] = register.registerIcon("ssr:tier" + i);
         }
     }

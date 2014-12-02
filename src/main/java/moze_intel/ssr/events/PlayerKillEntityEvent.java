@@ -15,22 +15,18 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 
-public class PlayerKillEntityEvent
-{
+public class PlayerKillEntityEvent {
     @SubscribeEvent
-    public void onEntityKill(LivingDeathEvent event)
-    {
+    public void onEntityKill(LivingDeathEvent event) {
         World world = event.entity.worldObj;
 
-        if (world.isRemote || !(event.entity instanceof EntityLiving) || !(event.source.getEntity() instanceof EntityPlayer))
-        {
+        if (world.isRemote || !(event.entity instanceof EntityLiving) || !(event.source.getEntity() instanceof EntityPlayer)) {
             return;
         }
 
         EntityLiving dead = (EntityLiving) event.entity;
 
-        if (dead.getEntityData().getBoolean("SSR"))
-        {
+        if (dead.getEntityData().getBoolean("SSR")) {
             return;
         }
 
@@ -38,28 +34,23 @@ public class PlayerKillEntityEvent
 
         String entName = EntityList.getEntityString(dead);
 
-        if (entName == null || entName.isEmpty())
-        {
+        if (entName == null || entName.isEmpty()) {
             SSRLogger.logFatal("Player killed entity with no unlocalized name: " + dead);
             return;
         }
 
-        if (!EntityMapper.isEntityValid(entName))
-        {
+        if (!EntityMapper.isEntityValid(entName)) {
             return;
         }
 
-        if (dead instanceof EntitySkeleton && ((EntitySkeleton) dead).getSkeletonType() == 1)
-        {
+        if (dead instanceof EntitySkeleton && ((EntitySkeleton) dead).getSkeletonType() == 1) {
             entName = "Wither Skeleton";
         }
 
         ItemStack shard = Utils.getShardFromInv(player, entName);
 
-        if (shard != null)
-        {
-            if (!Utils.isShardBound(shard))
-            {
+        if (shard != null) {
+            if (!Utils.isShardBound(shard)) {
                 Utils.setShardBoundEnt(shard, entName);
                 Utils.writeEntityHeldItem(shard, dead);
             }

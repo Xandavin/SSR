@@ -10,24 +10,17 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 
-public final class Utils
-{
-    public static ItemStack getShardFromInv(EntityPlayer player, String entity)
-    {
+public final class Utils {
+    public static ItemStack getShardFromInv(EntityPlayer player, String entity) {
         ItemStack lastResort = null;
 
-        for (int i = 0; i <= 8; i++)
-        {
+        for (int i = 0; i <= 8; i++) {
             ItemStack stack = player.inventory.getStackInSlot(i);
 
-            if (stack != null && stack.getItem() == ObjHandler.SOUL_SHARD && !hasMaxedKills(stack))
-            {
-                if (!isShardBound(stack) && lastResort == null)
-                {
+            if (stack != null && stack.getItem() == ObjHandler.SOUL_SHARD && !hasMaxedKills(stack)) {
+                if (!isShardBound(stack) && lastResort == null) {
                     lastResort = stack;
-                }
-                else if (getShardBoundEnt(stack).equals(entity))
-                {
+                } else if (getShardBoundEnt(stack).equals(entity)) {
                     return stack;
                 }
             }
@@ -36,20 +29,16 @@ public final class Utils
         return lastResort;
     }
 
-    public static short getShardKillCount(ItemStack shard)
-    {
-        if (!shard.hasTagCompound())
-        {
+    public static short getShardKillCount(ItemStack shard) {
+        if (!shard.hasTagCompound()) {
             return 0;
         }
 
         return (short) MathHelper.clamp_int(shard.stackTagCompound.getShort("KillCount"), 0, TierHandler.getMaxKills(5));
     }
 
-    public static void increaseShardKillCount(ItemStack shard, short amount)
-    {
-        if (!shard.hasTagCompound() || hasMaxedKills(shard))
-        {
+    public static void increaseShardKillCount(ItemStack shard, short amount) {
+        if (!shard.hasTagCompound() || hasMaxedKills(shard)) {
             return;
         }
 
@@ -58,38 +47,30 @@ public final class Utils
         checkAndFixShard(shard);
     }
 
-    public static void checkAndFixShard(ItemStack shard)
-    {
-        if (!TierHandler.isShardValid(shard))
-        {
+    public static void checkAndFixShard(ItemStack shard) {
+        if (!TierHandler.isShardValid(shard)) {
             setShardTier(shard, TierHandler.getCorrectTier(shard));
         }
     }
 
-    public static void setShardKillCount(ItemStack shard, short value)
-    {
-        if (!shard.hasTagCompound())
-        {
+    public static void setShardKillCount(ItemStack shard, short value) {
+        if (!shard.hasTagCompound()) {
             shard.setTagCompound(new NBTTagCompound());
         }
 
         shard.stackTagCompound.setShort("KillCount", value);
     }
 
-    public static byte getShardTier(ItemStack shard)
-    {
-        if (!shard.hasTagCompound())
-        {
+    public static byte getShardTier(ItemStack shard) {
+        if (!shard.hasTagCompound()) {
             return 0;
         }
 
         return (byte) MathHelper.clamp_int(shard.stackTagCompound.getByte("Tier"), 0, 5);
     }
 
-    public static void setShardTier(ItemStack shard, byte tier)
-    {
-        if (!shard.hasTagCompound())
-        {
+    public static void setShardTier(ItemStack shard, byte tier) {
+        if (!shard.hasTagCompound()) {
             shard.setTagCompound(new NBTTagCompound());
         }
 
@@ -99,10 +80,8 @@ public final class Utils
     /**
      * Returns an empty string if unbound.
      */
-    public static String getShardBoundEnt(ItemStack shard)
-    {
-        if (!shard.hasTagCompound())
-        {
+    public static String getShardBoundEnt(ItemStack shard) {
+        if (!shard.hasTagCompound()) {
             return "";
         }
 
@@ -112,71 +91,58 @@ public final class Utils
     /**
      * Does not check if the shard is already bound!
      */
-    public static void setShardBoundEnt(ItemStack shard, String value)
-    {
-        if (!shard.hasTagCompound())
-        {
+    public static void setShardBoundEnt(ItemStack shard, String value) {
+        if (!shard.hasTagCompound()) {
             shard.setTagCompound(new NBTTagCompound());
         }
 
         shard.stackTagCompound.setString("Entity", value);
     }
 
-    public static boolean isShardBound(ItemStack shard)
-    {
+    public static boolean isShardBound(ItemStack shard) {
         return !getShardBoundEnt(shard).isEmpty();
     }
 
-    public static boolean hasMaxedKills(ItemStack shard)
-    {
+    public static boolean hasMaxedKills(ItemStack shard) {
         return isShardBound(shard) && getShardKillCount(shard) >= TierHandler.getMaxKills(5);
     }
 
-    public static String getEntityNameTransltated(String unlocalName)
-    {
-        if (unlocalName.equals("Wither Skeleton"))
-        {
+    public static String getEntityNameTransltated(String unlocalName) {
+        if (unlocalName.equals("Wither Skeleton")) {
             return unlocalName;
         }
 
         String result = StatCollector.translateToLocal("entity." + unlocalName + ".name");
 
-        if (result == null)
-        {
+        if (result == null) {
             return unlocalName;
         }
 
         return result;
     }
 
-    private static short getClampedKillCount(int amount)
-    {
+    private static short getClampedKillCount(int amount) {
         int value = MathHelper.clamp_int(amount, 0, TierHandler.getMaxKills(5));
 
-        if (value > Short.MAX_VALUE)
-        {
+        if (value > Short.MAX_VALUE) {
             return Short.MAX_VALUE;
         }
 
         return (short) value;
     }
 
-    public static void writeEntityHeldItem(ItemStack shard, EntityLiving ent)
-    {
-        if (ent instanceof EntityZombie || ent instanceof EntityEnderman)
-        {
+    public static void writeEntityHeldItem(ItemStack shard, EntityLiving ent) {
+        if (ent instanceof EntityZombie || ent instanceof EntityEnderman) {
             return;
         }
 
         ItemStack held = ent.getHeldItem();
 
-        if (held != null)
-        {
+        if (held != null) {
             NBTTagCompound nbt = new NBTTagCompound();
             held.writeToNBT(nbt);
 
-            if (nbt.hasKey("ench"))
-            {
+            if (nbt.hasKey("ench")) {
                 nbt.removeTag("ench");
             }
 
@@ -184,15 +150,12 @@ public final class Utils
         }
     }
 
-    public static ItemStack getEntityHeldItem(ItemStack shard)
-    {
-        if (!shard.hasTagCompound())
-        {
+    public static ItemStack getEntityHeldItem(ItemStack shard) {
+        if (!shard.hasTagCompound()) {
             return null;
         }
 
-        if (shard.stackTagCompound.hasKey("HeldItem"))
-        {
+        if (shard.stackTagCompound.hasKey("HeldItem")) {
             return ItemStack.loadItemStackFromNBT((NBTTagCompound) shard.stackTagCompound.getTag("HeldItem"));
         }
 

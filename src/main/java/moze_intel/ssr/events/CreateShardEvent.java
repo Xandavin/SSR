@@ -10,30 +10,23 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
-public class CreateShardEvent
-{
+public class CreateShardEvent {
     @SubscribeEvent
-    public void onRightClick(PlayerInteractEvent event)
-    {
-        if (event.world.isRemote || event.action != PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)
-        {
+    public void onRightClick(PlayerInteractEvent event) {
+        if (event.world.isRemote || event.action != PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
             return;
         }
 
-        if (event.entityPlayer.getHeldItem() == null || event.entityPlayer.getHeldItem().getItem() != Items.diamond)
-        {
+        if (event.entityPlayer.getHeldItem() == null || event.entityPlayer.getHeldItem().getItem() != Items.diamond) {
             return;
         }
 
-        if (event.world.getBlock(event.x, event.y, event.z) != Blocks.glowstone)
-        {
+        if (event.world.getBlock(event.x, event.y, event.z) != Blocks.glowstone) {
             return;
         }
 
-        if (checkHorizontal(event.world, event.x, event.y, event.z) || checkVertical(event.world, event.x, event.y, event.z))
-        {
-            if (!event.entityPlayer.capabilities.isCreativeMode)
-            {
+        if (checkHorizontal(event.world, event.x, event.y, event.z) || checkVertical(event.world, event.x, event.y, event.z)) {
+            if (!event.entityPlayer.capabilities.isCreativeMode) {
                 event.entityPlayer.getHeldItem().stackSize--;
             }
 
@@ -49,36 +42,27 @@ public class CreateShardEvent
         }
     }
 
-    private boolean checkHorizontal(World world, int x, int y, int z)
-    {
-        ForgeDirection[] VALID_DIRECTIONS = new ForgeDirection[] {ForgeDirection.NORTH, ForgeDirection.SOUTH, ForgeDirection.EAST, ForgeDirection.WEST};
+    private boolean checkHorizontal(World world, int x, int y, int z) {
+        ForgeDirection[] VALID_DIRECTIONS = new ForgeDirection[]{ForgeDirection.NORTH, ForgeDirection.SOUTH, ForgeDirection.EAST, ForgeDirection.WEST};
 
-        for (ForgeDirection dir : VALID_DIRECTIONS)
-        {
+        for (ForgeDirection dir : VALID_DIRECTIONS) {
             int newX = x + dir.offsetX;
             int newZ = z + dir.offsetZ;
 
-            if (world.getBlock(newX, y, newZ) != Blocks.netherrack)
-            {
+            if (world.getBlock(newX, y, newZ) != Blocks.netherrack) {
                 return false;
             }
 
-            if (world.getBlock(newX + dir.offsetX, y, newZ + dir.offsetZ) != Blocks.end_stone)
-            {
+            if (world.getBlock(newX + dir.offsetX, y, newZ + dir.offsetZ) != Blocks.end_stone) {
                 return false;
             }
 
-            if (dir.offsetX == 0)
-            {
-                if (world.getBlock(newX + dir.offsetZ, y, newZ) != Blocks.end_stone)
-                {
+            if (dir.offsetX == 0) {
+                if (world.getBlock(newX + dir.offsetZ, y, newZ) != Blocks.end_stone) {
                     return false;
                 }
-            }
-            else if (dir.offsetZ == 0)
-            {
-                if (world.getBlock(newX, y, newZ - dir.offsetX) != Blocks.end_stone)
-                {
+            } else if (dir.offsetZ == 0) {
+                if (world.getBlock(newX, y, newZ - dir.offsetX) != Blocks.end_stone) {
                     return false;
                 }
             }
@@ -87,79 +71,61 @@ public class CreateShardEvent
         return true;
     }
 
-    private boolean checkVertical(World world, int x, int y, int z)
-    {
-        ForgeDirection[] VALID_DIRECTIONS = new ForgeDirection[] {ForgeDirection.UP, ForgeDirection.DOWN, ForgeDirection.EAST, ForgeDirection.WEST};
+    private boolean checkVertical(World world, int x, int y, int z) {
+        ForgeDirection[] VALID_DIRECTIONS = new ForgeDirection[]{ForgeDirection.UP, ForgeDirection.DOWN, ForgeDirection.EAST, ForgeDirection.WEST};
         boolean isFormed = true;
 
-        for (ForgeDirection dir : VALID_DIRECTIONS)
-        {
+        for (ForgeDirection dir : VALID_DIRECTIONS) {
             int newX = x + dir.offsetX;
             int newY = y + dir.offsetY;
 
-            if (world.getBlock(newX, newY, z) != Blocks.netherrack)
-            {
+            if (world.getBlock(newX, newY, z) != Blocks.netherrack) {
                 isFormed = false;
                 break;
             }
 
-            if (world.getBlock(newX + dir.offsetX, newY + dir.offsetY, z) != Blocks.end_stone)
-            {
+            if (world.getBlock(newX + dir.offsetX, newY + dir.offsetY, z) != Blocks.end_stone) {
                 isFormed = false;
                 break;
             }
 
-            if (dir.offsetX == 0)
-            {
-                if (world.getBlock(newX + dir.offsetY, newY, z) != Blocks.end_stone)
-                {
+            if (dir.offsetX == 0) {
+                if (world.getBlock(newX + dir.offsetY, newY, z) != Blocks.end_stone) {
                     isFormed = false;
                     break;
                 }
-            }
-            else if (dir.offsetY == 0)
-            {
-                if (world.getBlock(newX, newY - dir.offsetX, z) != Blocks.end_stone)
-                {
+            } else if (dir.offsetY == 0) {
+                if (world.getBlock(newX, newY - dir.offsetX, z) != Blocks.end_stone) {
                     isFormed = false;
                     break;
                 }
             }
         }
 
-        if (isFormed)
-        {
+        if (isFormed) {
             return true;
         }
 
-        VALID_DIRECTIONS = new ForgeDirection[] {ForgeDirection.UP, ForgeDirection.DOWN, ForgeDirection.NORTH, ForgeDirection.SOUTH};
+        VALID_DIRECTIONS = new ForgeDirection[]{ForgeDirection.UP, ForgeDirection.DOWN, ForgeDirection.NORTH, ForgeDirection.SOUTH};
 
-        for (ForgeDirection dir : VALID_DIRECTIONS)
-        {
+        for (ForgeDirection dir : VALID_DIRECTIONS) {
             int newZ = z + dir.offsetZ;
             int newY = y + dir.offsetY;
 
-            if (world.getBlock(x, newY, newZ) != Blocks.netherrack)
-            {
+            if (world.getBlock(x, newY, newZ) != Blocks.netherrack) {
                 return false;
             }
 
-            if (world.getBlock(x, newY + dir.offsetY, newZ + dir.offsetZ) != Blocks.end_stone)
-            {
+            if (world.getBlock(x, newY + dir.offsetY, newZ + dir.offsetZ) != Blocks.end_stone) {
                 return false;
             }
 
-            if (dir.offsetZ == 0)
-            {
-                if (world.getBlock(x, newY, newZ + dir.offsetY) != Blocks.end_stone)
-                {
+            if (dir.offsetZ == 0) {
+                if (world.getBlock(x, newY, newZ + dir.offsetY) != Blocks.end_stone) {
                     return false;
                 }
-            }
-            else if (dir.offsetY == 0)
-            {
-                if (world.getBlock(x, newY - dir.offsetZ, newZ) != Blocks.end_stone)
-                {
+            } else if (dir.offsetY == 0) {
+                if (world.getBlock(x, newY - dir.offsetZ, newZ) != Blocks.end_stone) {
                     return false;
                 }
             }

@@ -16,8 +16,7 @@ import net.minecraftforge.common.MinecraftForge;
 import java.io.File;
 
 @Mod(modid = SSRCore.ID, name = SSRCore.NAME, version = SSRCore.VERSION)
-public class SSRCore
-{
+public class SSRCore {
     public static final String ID = "SSR";
     public static final String NAME = "Soul Shards Reborn";
     public static final String VERSION = "@VERSION@";
@@ -25,12 +24,10 @@ public class SSRCore
     public static File CONFIG_DIR;
 
     @Mod.EventHandler
-    public void preInit(FMLPreInitializationEvent event)
-    {
+    public void preInit(FMLPreInitializationEvent event) {
         CONFIG_DIR = new File(event.getModConfigurationDirectory(), "SSR");
 
-        if (!CONFIG_DIR.exists())
-        {
+        if (!CONFIG_DIR.exists()) {
             CONFIG_DIR.mkdirs();
         }
 
@@ -38,8 +35,7 @@ public class SSRCore
     }
 
     @Mod.EventHandler
-    public void init(FMLInitializationEvent event)
-    {
+    public void init(FMLInitializationEvent event) {
         ObjHandler.registerObjs();
 
         MinecraftForge.EVENT_BUS.register(new PlayerKillEntityEvent());
@@ -47,14 +43,12 @@ public class SSRCore
     }
 
     @Mod.EventHandler
-    public void postInit(FMLPostInitializationEvent event)
-    {
+    public void postInit(FMLPostInitializationEvent event) {
         EntityMapper.init();
     }
 
     @Mod.EventHandler
-    public void serverStart(FMLServerStartingEvent eventt)
-    {
+    public void serverStart(FMLServerStartingEvent eventt) {
         eventt.registerServerCommand(new KillCMD());
     }
 }

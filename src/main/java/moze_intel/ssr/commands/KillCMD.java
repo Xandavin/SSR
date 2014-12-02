@@ -8,46 +8,36 @@ import net.minecraft.util.EnumChatFormatting;
 
 import java.util.List;
 
-public class KillCMD extends CommandBase
-{
+public class KillCMD extends CommandBase {
     @Override
-    public String getCommandName()
-    {
+    public String getCommandName() {
         return "ssr_killall";
     }
 
     @Override
-    public String getCommandUsage(ICommandSender p_71518_1_)
-    {
+    public String getCommandUsage(ICommandSender p_71518_1_) {
         return "/ssr_killall";
     }
 
     @Override
-    public int getRequiredPermissionLevel()
-    {
+    public int getRequiredPermissionLevel() {
         return 4;
     }
 
     @Override
-    public void processCommand(ICommandSender sender, String[] params)
-    {
+    public void processCommand(ICommandSender sender, String[] params) {
         int killCounter = 0;
 
-        for (Entity ent : (List<Entity>) sender.getEntityWorld().loadedEntityList)
-        {
-            if (ent.getEntityData().getBoolean("SSR"))
-            {
+        for (Entity ent : (List<Entity>) sender.getEntityWorld().loadedEntityList) {
+            if (ent.getEntityData().getBoolean("SSR")) {
                 ent.setDead();
                 killCounter++;
             }
         }
 
-        if (killCounter == 0)
-        {
+        if (killCounter == 0) {
             sender.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "No spawned entities were found!"));
-        }
-        else
-        {
+        } else {
             sender.addChatMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Killed " + killCounter + " entities!"));
         }
     }

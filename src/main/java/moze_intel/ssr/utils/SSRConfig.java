@@ -4,17 +4,7 @@ import net.minecraftforge.common.config.Configuration;
 
 import java.io.File;
 
-public final class SSRConfig
-{
-    private static Configuration config;
-    public static int ENCHANT_WEIGHT;
-    public static int ENCHANT_KILL_BONUS;
-    public static int SPAWNER_ABSORB_BONUS;
-    public static int MAX_NUM_ENTITIES;
-    public static boolean ALLOW_SPAWNER_ABSORB;
-    public static boolean INVERT_REDSTONE;
-    public static boolean ENABLE_FLOOD_PREVENTION;
-
+public final class SSRConfig {
     private static final short[] DEFAULT_MIN_KILLS = {64, 128, 256, 512, 1024};
     private static final byte[] DEFAULT_NUM_SPAWNS = {2, 4, 4, 4, 6};
     private static final byte[] DEFAULT_SPAWN_DELAY = {20, 10, 5, 5, 2};
@@ -22,13 +12,19 @@ public final class SSRConfig
     private static final boolean[] DEFAULT_CHECKS_LIGHT = {true, true, true, true, false};
     private static final boolean[] DEFAULT_CHECKS_WORLD = {true, true, true, false, false};
     private static final boolean[] DEFAULT_CHECKS_REDSTONE = {false, false, false, false, true};
+    public static int ENCHANT_WEIGHT;
+    public static int ENCHANT_KILL_BONUS;
+    public static int SPAWNER_ABSORB_BONUS;
+    public static int MAX_NUM_ENTITIES;
+    public static boolean ALLOW_SPAWNER_ABSORB;
+    public static boolean INVERT_REDSTONE;
+    public static boolean ENABLE_FLOOD_PREVENTION;
+    private static Configuration config;
 
-    public static void init(File configFile)
-    {
+    public static void init(File configFile) {
         config = new Configuration(configFile);
 
-        try
-        {
+        try {
             config.load();
 
             ENCHANT_WEIGHT = config.getInt("Weight", "Soul Stealer Enchant", 8, 1, 10, "Soul-Stealer enchant probability");
@@ -41,8 +37,7 @@ public final class SSRConfig
 
             short[] minKills = new short[5];
 
-            for (int i = 0; i < 5; i++)
-            {
+            for (int i = 0; i < 5; i++) {
                 minKills[i] = (short) config.getInt("Min kills", "Tier " + (i + 1) + " settings", DEFAULT_MIN_KILLS[i], 1, 2048, "Minimum kills for the tier");
 
                 TierHandler.setNumSpawns(i, (byte) config.getInt("Num Spawns", "Tier " + (i + 1) + " settings", DEFAULT_NUM_SPAWNS[i], 1, 10, "Number of spawns per operation"));
@@ -56,16 +51,11 @@ public final class SSRConfig
             TierHandler.setTierReqKills(minKills);
 
             SSRLogger.logInfo("Loaded configuration file!");
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             SSRLogger.logFatal("Failed to load configuration file!");
             e.printStackTrace();
-        }
-        finally
-        {
-            if (config.hasChanged())
-            {
+        } finally {
+            if (config.hasChanged()) {
                 config.save();
             }
         }
