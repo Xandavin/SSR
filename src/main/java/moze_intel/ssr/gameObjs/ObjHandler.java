@@ -19,7 +19,7 @@ public final class ObjHandler {
         boolean found = false;
         for (int counter = 0; counter <= 256 && !found; counter++) {
             if (Enchantment.enchantmentsList[counter] == null) {
-                Enchantment SOUL_STEALER = new SoulStealerEnchant(counter,
+                SOUL_STEALER = new SoulStealerEnchant(counter,
                         SSRConfig.ENCHANT_WEIGHT);
                 found = true;
             }
